@@ -8,3 +8,7 @@ class CannotLoadConfig(FancySourceQueryError):
 
 class QueryTimeout(TimeoutError):
     pass
+
+
+class ObjectNotFound(FancySourceQueryError):
+    pass
