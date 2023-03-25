@@ -7,11 +7,36 @@
 
 此接口导出一个 FancySourceQuery 对象，其成员函数提供了对应的功能。
 """
-from .config import FancySourceQueryConfig, load_config
+import logging
+
+import toml
+
+from .config import FancySourceQueryConfig, Mapname, load_config, MAPNAMES_PATH_PREFIX
+from .guess_map import build_rlookup, guess_map
 
 
 class FancySourceQuery:
     config: FancySourceQueryConfig
+    mapnames: list[Mapname]
+    map_rlookup: dict[str, Mapname]
 
     def __init__(self) -> None:
-        self.config = load_config()
+        self.update_config()
+        self.update_mapnames()
+
+    def update_config(self, path: str | None = None):
+        self.config = load_config(path)
+
+    def update_mapnames(self):
+        mapnames = toml.load(self.config.mapnames_db)
+        self.mapnames = [Mapname.parse_obj(x) for x in mapnames[MAPNAMES_PATH_PREFIX]]
+        self.map_rlookup = build_rlookup(self.mapnames)
+        logging.debug("mapnames refreshed")
+
+    def guess_map(self, code: str) -> str:
+        "除了 guess map 之外还需要完成格式化任务 name|code"
+        name = guess_map(self.map_rlookup, code)
+        if name:
+            return f"{name}|{code}"
+        else:
+            return code
