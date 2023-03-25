@@ -11,21 +11,25 @@ import logging
 
 import toml
 
-from .config import FancySourceQueryConfig, Mapname, load_config, MAPNAMES_PATH_PREFIX
+from .config import MAPNAMES_PATH_PREFIX, FancySourceQueryConfig, Mapname, load_config
 from .guess_map import build_rlookup, guess_map
+from .querypool import QueryPool
 
 
 class FancySourceQuery:
     config: FancySourceQueryConfig
     mapnames: list[Mapname]
     map_rlookup: dict[str, Mapname]
+    query_pool: QueryPool
 
     def __init__(self) -> None:
+        self.query_pool = QueryPool()
         self.update_config()
         self.update_mapnames()
 
     def update_config(self, path: str | None = None):
         self.config = load_config(path)
+        self.query_pool.config(self.config.cache_delay)
 
     def update_mapnames(self):
         mapnames = toml.load(self.config.mapnames_db)
