@@ -24,7 +24,7 @@ class ServerConfig(BaseModel, extra=Extra.ignore):
 class ServerGroupConfig(BaseModel, extra=Extra.ignore):
     "服务器组"
     name: str
-    related_session: list[str]
+    related_sessions: list[str]
 
 
 class FancySourceQueryConfig(BaseModel, extra=Extra.ignore):
@@ -82,6 +82,7 @@ def load_config(config_path: str | None = None):
             logging.info(f"read config_path from default {config_path!r}")
 
     config = toml.load(config_path)
+    config = FancySourceQueryConfig.parse_obj(config[CONFIG_PATH_PREFIX])
     return config
 
 

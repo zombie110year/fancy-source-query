@@ -1,13 +1,17 @@
 import pytest
 from fancy_source_query.guess_map import guess_map, build_rlookup
-from fancy_source_query.config import DEFAULT_MAPNAMES_PATH, Mapname
+from fancy_source_query.config import (
+    DEFAULT_MAPNAMES_PATH,
+    Mapname,
+    MAPNAMES_PATH_PREFIX,
+)
 import toml
 
 
 @pytest.fixture(scope="session", autouse=True)
 def rlookup():
     mapnames = toml.load(DEFAULT_MAPNAMES_PATH)
-    mapnames = [Mapname.parse_obj(x) for x in mapnames["mapnames"]]
+    mapnames = [Mapname.parse_obj(x) for x in mapnames[MAPNAMES_PATH_PREFIX]]
     return build_rlookup(mapnames)
 
 
