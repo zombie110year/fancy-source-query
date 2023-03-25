@@ -4,3 +4,7 @@ class FancySourceQueryError(Exception):
 
 class CannotLoadConfig(FancySourceQueryError):
     pass
+
+
+class QueryTimeout(TimeoutError):
+    pass
