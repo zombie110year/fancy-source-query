@@ -1,0 +1,725 @@
+# 官图
+[[mapnames]]
+name = "Dead Center"
+name_zh = "死亡中心"
+maps = ["c1m1_hotel", "c1m2_streets", "c1m3_mall", "c1m4_atrium"]
+
+[[mapnames]]
+name = "Dark Carnival"
+name_zh = "黑色狂欢节"
+maps = [
+    "c2m1_highway",
+    "c2m2_fairgrounds",
+    "c2m3_coaster",
+    "c2m4_barns",
+    "c2m5_concert",
+]
+
+[[mapnames]]
+name = "Swamp Fever"
+name_zh = "沼泽激战"
+maps = ["c3m1_plankcountry", "c3m2_swamp", "c3m3_shantytown", "c3m4_plantation"]
+
+[[mapnames]]
+name = "Hard Rain"
+name_zh = "暴风骤雨"
+maps = [
+    "c4m1_milltown_a",
+    "c4m2_sugarmill_a",
+    "c4m3_sugarmill_b",
+    "c4m4_milltown_b",
+    "c4m5_milltown_escape",
+]
+
+
+[[mapnames]]
+name = "The Parish"
+name_zh = "教区"
+maps = [
+    "c5m1_waterfront_sndscape",
+    "c5m1_waterfront",
+    "c5m2_park",
+    "c5m3_cemetery",
+    "c5m4_quarter",
+    "c5m5_bridge",
+]
+
+[[mapnames]]
+name = "The Passing"
+name_zh = "短暂时刻"
+maps = ["c6m1_riverbank", "c6m2_bedlam", "c6m3_port"]
+
+[[mapnames]]
+name = "The Sacrifice"
+name_zh = "牺牲"
+maps = ["c7m1_docks", "c7m2_barge", "c7m3_port"]
+
+[[mapnames]]
+name = "No Mercy"
+name_zh = "毫不留情"
+maps = [
+    "c8m1_apartment",
+    "c8m2_subway",
+    "c8m3_sewers",
+    "c8m4_interior",
+    "c8m5_rooftop",
+]
+
+[[mapnames]]
+name = "Crash Course"
+name_zh = "坠机险途"
+maps = ["c9m1_alleys", "c9m2_lots"]
+
+[[mapnames]]
+name = "Death Toll"
+name_zh = "死亡丧钟"
+maps = [
+    "c10m1_caves",
+    "c10m2_drainage",
+    "c10m3_ranchhouse",
+    "c10m4_mainstreet",
+    "c10m5_houseboat",
+]
+
+[[mapnames]]
+name = "Dead Air"
+name_zh = "静寂时分"
+maps = [
+    "c11m1_greenhouse",
+    "c11m2_offices",
+    "c11m3_garage",
+    "c11m4_terminal",
+    "c11m5_runway",
+]
+
+[[mapnames]]
+name = "Blood Harvest"
+name_zh = "血腥收获"
+maps = [
+    "c12m1_hilltop",
+    "c12m2_traintunnel",
+    "c12m3_bridge",
+    "c12m4_barn",
+    "c12m5_cornfield",
+]
+
+[[mapnames]]
+name = "Cold Stream"
+name_zh = "刺骨寒溪"
+maps = [
+    "c13m1_alpinecreek",
+    "c13m2_southpinestream",
+    "c13m3_memorialbridge",
+    "c13m4_cutthroatcreek",
+]
+
+[[mapnames]]
+name = "The Last Stand"
+name_zh = "临死一搏"
+maps = ["c14m1_junkyard", "c14m2_lighthouse"]
+
+# 三方图
+[[mapnames]]
+name = "Resident Evil 1"
+name_zh = "生化危机1"
+maps = ["re1m1", "re1m2", "re1m3", "re1m4", "re1m5", "re1m6"]
+
+[[mapnames]]
+name = "SECTOR74"
+name_zh = "74区幸存者部队"
+maps = [
+    "sector-74-chapter-1",
+    "sector-74-chapter-2",
+    "sector-74-chapter-3",
+    "sector-74-chapter-4",
+    "sector-74-chapter-5",
+    "sector-74-chapter-6",
+    "sector-74-chapter-7",
+    "sector-74-chapter-8",
+    "sector-74-chapter-9",
+    "sector-74-chapter-10",
+    "sector-74-chapter-11",
+    "sector-74-chapter-12",
+    "sector-74-chapter-13",
+    "sector-74-chapter-14",
+    "sector-74-chapter-15",
+    "sector-74-chapter-16",
+]
+
+
+[[mapnames]]
+name = "Yama"
+name_zh = "摩耶山危机"
+maps = ["l4d_yama_1", "l4d_yama_2", "l4d_yama_3", "l4d_yama_4", "l4d_yama_5"]
+
+[[mapnames]]
+name = "音讯全无重制版(No Echo RE)"
+maps = [
+    "bjrtcre_m1",
+    "bjrtcre_m2_left",
+    "bjrtcre_m2_right",
+    "bjrtcre_m3",
+    "bjrtcre_m4",
+    "bjrtcre_m5",
+]
+
+[[mapnames]]
+name = "Questionable Ethics: Alpha test"
+name_zh = "伦理问题2：alpha测试"
+maps = ["qe2_ep1", "qe2_ep2", "qe2_ep3", "qe2_ep4", "qe2_ep5"]
+
+[[mapnames]]
+name = "Questionable Ethics v1.2"
+name_zh = "伦理问题"
+maps = [
+    "qe_1_cliche",
+    "qe_2_remember_me",
+    "qe_3_unorthodox_paradox",
+    "qe_4_ultimate_test",
+]
+
+[[mapnames]]
+name = "Urban Flight"
+name_zh = "城市航班"
+maps = ["uf1_boulevard", "uf2_rooftops", "uf3_harbor", "uf4_airfield"]
+
+[[mapnames]]
+name = "Farewell Chenming"
+name_zh = "再见了晨明"
+maps = ["msd1_town", "msd2_gasstation", "msd3_square", "msdnew_tccity_newway"]
+
+[[mapnames]]
+name = "Silent Hill"
+name_zh = "寂静岭"
+maps = [
+    "l4d_sh01_oldsh",
+    "l4d_sh02_school",
+    "l4d_sh03_schoolalt",
+    "l4d_sh04_church",
+    "l4d_sh05_hospital",
+    "l4d_sh06_hospitalalt",
+    "l4d_sh07_otherchurch",
+    "l4d_sh08_sewres",
+    "l4d_sh09_resort",
+    "l4d_sh10_amusementpark",
+    "l4d_sh11_nowhere",
+    "l4d_sh12_theend",
+    "l4d_sh_credits",
+    "l4d_sh_theend2",
+    "l4d_sh_theend3",
+    "l4d_sh_theend4",
+]
+
+[[mapnames]]
+name = "Titty Twister"
+name_zh = "乳摇酒吧"
+maps = ["titty", "titty1"]
+
+[[mapnames]]
+name = "Questionable Ethics: Combined"
+name_zh = "伦理问题3：组合"
+maps = ["qe3_1", "qe3_2", "qe3_3", "qe3_4", "qe3_5"]
+
+[[mapnames]]
+name = "再见了,南宁 V5.3"
+name_zh = "再见了南宁"
+maps = [
+    "DalingVillage_Survival",
+    "Electric_Power_School_m1",
+    "Keyuan_Avenue_m2",
+    "XinyuanRoad_m3",
+]
+
+[[mapnames]]
+name = "hehe20"
+name_zh = "呵呵20"
+maps = [
+    "hehe20_1",
+    "hehe20_10",
+    "hehe20_11",
+    "hehe20_12",
+    "hehe20_13",
+    "hehe20_14",
+    "hehe20_15",
+    "hehe20_16",
+    "hehe20_17",
+    "hehe20_18",
+    "hehe20_19",
+    "hehe20_2",
+    "hehe20_20",
+    "hehe20_3",
+    "hehe20_4",
+    "hehe20_5",
+    "hehe20_6",
+    "hehe20_7",
+    "hehe20_8",
+    "hehe20_9",
+]
+
+[[mapnames]]
+name = "呵呵23 逃脱IACC(互联网成瘾控制中心)"
+name_zh = "呵呵23"
+maps = ["hehe23_1", "hehe23_2", "hehe23_3"]
+
+[[mapnames]]
+name = "呵呵24"
+name_zh = "呵呵24"
+maps = ["hehe24_1", "hehe24_2", "hehe24_3", "hehe24_4"]
+
+[[mapnames]]
+name = "hehe26"
+name_zh = "呵呵26"
+maps = ["hehe26_1", "hehe26_2", "hehe26_3"]
+
+[[mapnames]]
+name = "hehe28"
+name_zh = "呵呵28"
+maps = ["hehe28_1", "hehe28_2", "hehe28_3", "hehe28_4", "hehe28_5"]
+
+[[mapnames]]
+name = "Kokiri Forest"
+name_zh = "哥奇利森林"
+maps = ["oot_boss", "oot_forest", "oot_temple"]
+
+[[mapnames]]
+name = "trip to hell"
+name_zh = "地府之旅"
+maps = ["hell_1", "hell_2", "hell_3", "hell_4", "hell_5", "hell_6"]
+
+[[mapnames]]
+name = "trip to hell2"
+name_zh = "地府之旅2"
+maps = ["hell1_1", "hell1_2", "hell1_3", "hell1_4"]
+
+[[mapnames]]
+name = "trip to hell3"
+name_zh = "地府之旅3"
+maps = ["hell3_1", "hell3_2", "hell3_3", "hell3_4"]
+
+[[mapnames]]
+name = "Left Turn Silent Hill 3"
+name_zh = "寂静岭3"
+maps = [
+    "silenthill3apartment",
+    "silenthill3mall",
+    "silenthill3othermall",
+    "silenthill3otherofficebuilding",
+    "silenthill3site",
+    "silenthill3subway",
+    "silenthill3underground",
+]
+
+[[mapnames]]
+name = "Silent Hill: Otherside of Life"
+name_zh = "寂静岭另一边的生活"
+maps = ["SH_01", "SH_02", "SH_03", "SH_04", "SH_05", "SH_06", "SH_07"]
+
+[[mapnames]]
+name = "Glubtastic"
+name_zh = "忧郁1"
+maps = [
+    "Glubtastic",
+    "Glubtastic_2",
+    "Glubtastic_3",
+    "Glubtastic_4",
+    "Glubtastic_5",
+]
+
+[[mapnames]]
+name = "Glubtastic 2"
+name_zh = "忧郁2"
+maps = [
+    "Glubtastic2_1",
+    "Glubtastic2_2",
+    "Glubtastic2_3",
+    "Glubtastic2_4",
+    "Glubtastic2_5",
+    "Glubtastic2_6",
+]
+
+[[mapnames]]
+name = "Glubtastic 3"
+name_zh = "忧郁3"
+maps = [
+    "Glubtastic3_1",
+    "Glubtastic3_2",
+    "Glubtastic3_3",
+    "Glubtastic3_4",
+    "Glubtastic3_5",
+    "Glubtastic3_vince",
+]
+
+[[mapnames]]
+name = "Glubtastic 4"
+name_zh = "忧郁4"
+maps = [
+    "glubtastic4_1",
+    "glubtastic4_2",
+    "glubtastic4_3",
+    "glubtastic4_4",
+    "glubtastic4_5",
+    "glubtastic4_6",
+    "glubtastic4_7",
+]
+
+[[mapnames]]
+name = "拜山"
+name_zh = "拜山"
+maps = ["bs_1_l4d2", "bs_2_l4d2", "bs_3_l4d2", "bs_4_l4d2"]
+
+[[mapnames]]
+name = "拜山2（bai mountain2）"
+name_zh = "拜山2_v3.0"
+maps = [
+    "bs2_1",
+    "bs2_10",
+    "bs2_11",
+    "bs2_12",
+    "bs2_2",
+    "bs2_3",
+    "bs2_4",
+    "bs2_5",
+    "bs2_6",
+    "bs2_7",
+    "bs2_8",
+    "bs2_9",
+]
+
+[[mapnames]]
+name = "Lord Of The Rings Campaign"
+name_zh = "指环王战役版"
+maps = [
+    "l4d2_lotrm1_moria",
+    "l4d2_lotrm2_mordor",
+    "l4d2_lotrm3_helms_deep_redux",
+]
+
+[[mapnames]]
+name = "Deadbeat Escape"
+name_zh = "无缝逃离"
+maps = [
+    "deadbeat01_forest",
+    "deadbeat02_alley",
+    "deadbeat03_street",
+    "deadbeat04_park",
+]
+
+[[mapnames]]
+name = "晨晨市"
+name_zh = "晨晨市"
+maps = [
+    "cc_thecity",
+    "cc_thecity2",
+    "cc_thesewer",
+    "cc_thestreet",
+    "cc_thesupermarket",
+    "cc_thevocalconcert",
+]
+
+[[mapnames]]
+name = "Escape Using UR Basic Instincts (Fixed)"
+name_zh = "本能逃离"
+maps = [
+    "amsterdam1etd",
+    "amsterdam2etd",
+    "fort1ecc",
+    "fort2ecc",
+    "fort3ecc",
+    "fs_m1_canaletd",
+    "palacev4etd",
+]
+
+[[mapnames]]
+name = "The Woods 2"
+name_zh = "森林2"
+maps = [
+    "l4d_thewoods2_21",
+    "l4d_thewoods2_22",
+    "l4d_thewoods2_23",
+    "l4d_thewoods2_24",
+    "l4d_thewoods2_25",
+]
+
+[[mapnames]]
+name = "Death Woods"
+name_zh = "死亡森林"
+maps = [
+    "l4d2_deathwoods01_stranded",
+    "l4d2_deathwoods02_tunnel",
+    "l4d2_deathwoods03_bridge",
+    "l4d2_deathwoods04_power",
+    "l4d2_deathwoods05_airfield",
+]
+
+[[mapnames]]
+name = "cave tour mix"
+name_zh = "洞穴之旅整合"
+maps = [
+    "cave_mix_m1",
+    "cave_mix_m10",
+    "cave_mix_m11",
+    "cave_mix_m12",
+    "cave_mix_m13",
+    "cave_mix_m14",
+    "cave_mix_m15",
+    "cave_mix_m16",
+    "cave_mix_m17",
+    "cave_mix_m18",
+    "cave_mix_m19",
+    "cave_mix_m2",
+    "cave_mix_m20",
+    "cave_mix_m21",
+    "cave_mix_m22",
+    "cave_mix_m23",
+    "cave_mix_m24",
+    "cave_mix_m25",
+    "cave_mix_m3",
+    "cave_mix_m4",
+    "cave_mix_m5",
+    "cave_mix_m6",
+    "cave_mix_m7",
+    "cave_mix_m8",
+    "cave_mix_m9",
+]
+
+[[mapnames]]
+name = "特殊任务2"
+name_zh = "特殊任务2"
+maps = [
+    "st2_1",
+    "st2_10",
+    "st2_11",
+    "st2_2",
+    "st2_3",
+    "st2_4",
+    "st2_5",
+    "st2_6",
+    "st2_7",
+    "st2_8",
+    "st2_9",
+]
+
+[[mapnames]]
+name = "White Forest"
+name_zh = "白森林"
+maps = ["wfp1_track", "wfp2_horn", "wfp3_mill", "wfp4_commstation"]
+
+[[mapnames]]
+name = "答辩特供版 dabian"
+name_zh = "答辩"
+maps = [
+    "dabian",
+    "dabian1_5",
+    "dabian2",
+    "dabian2_5",
+    "dabian3",
+    "dabian3_5",
+    "dabian4",
+]
+
+[[mapnames]]
+name = "Escape the Devil's Chapel TLM Ver"
+name_zh = "逃离魔鬼教堂"
+maps = [
+    "citystreets1ewc",
+    "dodsurvivalcoopewc",
+    "l4d2_helicopterescapeewc",
+    "l4d2_martial_lawewc",
+    "museumewc",
+    "techbuildingewc",
+]
+
+[[mapnames]]
+name = "RoadToTower"
+name_zh = "通往高塔"
+maps = ["rtt_01", "rtt_02", "rtt_03", "rtt_04", "rtt_05"]
+
+[[mapnames]]
+name = "Back To Revenholm V5.1"
+name_zh = "重返莱温霍姆"
+maps = [
+    "backtoravenholm_v5_01",
+    "backtoravenholm_v5_02",
+    "backtoravenholm_v5_03",
+    "backtoravenholm_v5_04",
+    "backtoravenholm_v5_05",
+    "backtoravenholm_v5_06",
+    "backtoravenholm_v5_07",
+    "backtoravenholm_v5_08",
+]
+
+[[mapnames]]
+name = "Suicide Blitz 2"
+name_zh = "闪电突袭2"
+maps = [
+    "l4d2_stadium1_apartment",
+    "l4d2_stadium2_riverwalk",
+    "l4d2_stadium3_city1",
+    "l4d2_stadium4_city2",
+    "l4d2_stadium5_stadium",
+    "l4d2_sv_stadium2_riverwalk",
+    "l4d2_sv_stadium3_city1",
+    "l4d2_sv_stadium4_city2",
+    "l4d2_vs_stadium2_riverwalk",
+]
+
+[[mapnames]]
+name = "ContraZ"
+name_zh = "魂斗罗"
+maps = ["contra3d01", "contra3d02", "contra3d03", "contra3d04", "contra3d05"]
+
+[[mapnames]]
+name = "Devil Mountain"
+name_zh = "魔鬼山"
+maps = ["dm1_suburbs", "dm2_blastzone", "dm3_canyon", "dm4_caves", "dm5_summit"]
+
+[[mapnames]]
+name = "广州增城Lv7.3"
+name_zh = "广州增城"
+maps = ["zc_m1", "zc_m2", "zc_m3", "zc_m4", "zc_m5"]
+
+[[mapnames]]
+name = "GoldenEye 4 Dead Fixed"
+name_zh = "黄金眼4修复版"
+maps = [
+    "damshort170surv",
+    "facilitysurvfirsthalf04",
+    "gemarshy02fac",
+    "gemarshy03aztec",
+]
+
+[[mapnames]]
+name = "Blue Heaven"
+name_zh = "蓝色天堂"
+maps = ["map_1_rest", "map_3_tranquility", "map_4_tower", "map_5_heaven"]
+
+[[mapnames]]
+name = "洞穴之旅6"
+maps = ["cave6m1", "cave6m2", "cave6m3", "cave6m4", "cave6m5"]
+
+[[mapnames]]
+name = "The Evil Within"
+name_zh = "恶灵附身"
+maps = [
+    "w4e1_basement",
+    "w4e2_asylum",
+    "w4e3_keeper",
+    "w4e4_mansion",
+    "w4e5_evil",
+]
+
+[[mapnames]]
+name = "Left 4 Toonrun"
+name_zh = "卡通世界"
+maps = ["toonrun1", "toonrun2", "toonrun3"]
+
+[[mapnames]]
+name = "Left 4 Mario"
+name_zh = "马里奥探险"
+maps = ["C1_mario1_1", "C1_mario1_2", "C1_mario1_3", "C1_mario1_4"]
+
+[[mapnames]]
+name = "Divine Cybermancy"
+name_zh = "异度神召"
+maps = [
+    "dworld01_point",
+    "dworld02_falling",
+    "dworld03_noctis",
+    "dworld04_monolith",
+    "dworld05_forgotten",
+    "dworld06_sheep",
+    "dworld07_new_eden",
+    "dworld08_tuto",
+    "dworld09_tuto2",
+    "dworld10_ancient",
+    "dworld11_purge",
+    "dworld12_warp",
+]
+
+[[mapnames]]
+name = "Pesaro"
+name_zh = "佩萨罗"
+maps = [
+    "m1_fabbrecce",
+    "m2_vismara",
+    "m3_cattabrighe1",
+    "m4_cattabrighe2",
+    "m5_sanbartolo",
+]
+
+[[mapnames]]
+name = "Pesaro 2a Ondata"
+name_zh = "佩萨罗2"
+maps = [
+    "m1_trieste",
+    "m2_centro",
+    "m3_stazione",
+    "m4_torraccia",
+    "m5_iper_conad",
+    "m6_adriatic_arena",
+]
+
+[[mapnames]]
+name = "Death Toilet Maza"
+name_zh = "死亡厕所迷宫"
+maps = [
+    "deathttoiletmaze1",
+    "deathttoiletmaze2",
+    "deathttoiletmaze3",
+    "deathttoiletmaze4",
+    "deathttoiletmaze5",
+]
+
+[[mapnames]]
+name = "Lego"
+name_zh = "乐高世界"
+maps = [
+    "lego_towerfinale_05",
+    "lego_town_01",
+    "lego_tunnels_02",
+    "lego_urban_04",
+    "lego_wastelands_03",
+]
+
+[[mapnames]]
+name = "Salt Well Hell Park"
+name_zh = "盐井地狱公园"
+maps = [
+    "saltwell_1_d",
+    "saltwell_2_d",
+    "saltwell_3_d",
+    "saltwell_4_d",
+    "saltwell_5_d",
+]
+
+[[mapnames]]
+name = "BLACK MESA: FALLOUTS"
+name_zh = "黑山基地辐射"
+maps = ["c5a1", "c5a2", "c5a3", "c5a4", "c5a5"]
+
+[[mapnames]]
+name = "Freezer Burn"
+name_zh = "冰与火"
+maps = [
+    "l4d2_win1",
+    "l4d2_win2",
+    "l4d2_win3",
+    "l4d2_win4",
+    "l4d2_win5",
+    "l4d2_win6",
+]
+
+
+[[mapnames]]
+name = "方块2"
+name_zh = "方块2"
+maps = ["fk2_1", "fk2_2", "fk2_3", "fk2_4", "fk2_5"]
+
+[[mapnames]]
+name = "Z-PTZ v2.0"
+maps = ["appartments", "district", "deepforest", "powerplant", "centr", "coast"]
+
+[[mapnames]]
+name = "Dark Woods"
+name_zh = "阴暗森林"
+maps = ["dw_woods", "dw_underground", "dw_complex", "dw_otherworld", "dw_final"]

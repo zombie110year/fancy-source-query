@@ -6,7 +6,7 @@ authors = [
     {name = "zombie110year", email = "zombie110year@outlook.com"},
 ]
 dependencies = [
-    "nonebot2>=2.0.0rc3",
+    "nonebot2[fastapi]>=2.0.0rc3",
     # 提供 source server query 接口
     "steam[client]>=1.4.4",
     # 读取配置文件
