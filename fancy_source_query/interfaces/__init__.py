@@ -11,9 +11,9 @@ import logging
 
 import toml
 
-from .config import MAPNAMES_PATH_PREFIX, FancySourceQueryConfig, Mapname, load_config
-from .guess_map import build_rlookup, guess_map
-from .querypool import QueryPool
+from ..config import MAPNAMES_PATH_PREFIX, FancySourceQueryConfig, Mapname, load_config
+from ..guess_map import build_rlookup, guess_map
+from ..querypool import QueryPool
 
 
 class FancySourceQuery:
