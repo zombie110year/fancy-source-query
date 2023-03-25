@@ -9,6 +9,13 @@ output_max_lines = 5
 # 该路径相对于 nonebot 进程工作目录
 mapnames_db = "mapnames.toml"
 
+# 格式化查询数据的模板
+[fancy_source_query.fmt]
+server_info = "{name}\n==({players:>2d}/{max_players:>2d})[{mapname}]"
+player_info = ">>[{score}]({minutes:.1f}min){name}"
+rule_info = "({key} = {value})"
+# strftime 格式符
+time = "%Y-%m-%d %H:%M:%S"
 # todo 以后实现配置 impaper
 
 # Fancy Source Query 可以为不同的 QQ 群设置不同的服务器组

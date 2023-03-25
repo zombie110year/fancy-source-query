@@ -38,7 +38,7 @@ class ServerPair(BaseModel):
     players: list[PlayerInfo]
 
 
-class ServerTuple(BaseModel):
+class ServerTriple(BaseModel):
     "包含了服务器信息、玩家信息和规则信息"
     server: ServerInfo
     players: list[PlayerInfo]

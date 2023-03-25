@@ -31,5 +31,5 @@ def test_c1m1(rlookup: dict[str, Mapname]):
 
 def test_fsquery_guess_map(fsquery: FancySourceQuery):
     code = "c1m1_hotel"
-    name = fsquery.guess_map(code)
+    name = fsquery.ifmt.guess_map(code)
     assert name == f"死亡中心|{code}"

@@ -27,6 +27,15 @@ class ServerGroupConfig(BaseModel, extra=Extra.ignore):
     related_sessions: list[str]
 
 
+class FmtConfig(BaseModel, extra=Extra.ignore):
+    "设置格式化模板"
+    server_info: str = "{name}\n==({players:>2d}/{max_players:>2d})[{mapname}]"
+    player_info: str = ">>[{score}]({minutes:.1f}min){name}"
+    rule_info: str = "({key} = {value})"
+    # strftime 格式符
+    time: str = "%Y-%m-%d %H:%M:%S"
+
+
 class FancySourceQueryConfig(BaseModel, extra=Extra.ignore):
     """插件的主要配置"""
 
@@ -40,6 +49,7 @@ class FancySourceQueryConfig(BaseModel, extra=Extra.ignore):
     # 该路径相对于 nonebot 进程工作目录
     mapnames_db: str = DEFAULT_MAPNAMES_PATH
 
+    fmt: FmtConfig
     server_groups: list[ServerGroupConfig]
     servers: list[ServerConfig]
 
