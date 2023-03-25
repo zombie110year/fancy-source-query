@@ -56,33 +56,32 @@ output_max_lines = 5
 # 该路径相对于 nonebot 进程工作目录
 mapnames_db = "mapnames.toml"
 
-[fancy_source_query.impaper]
-
+# todo 以后实现配置 impaper
 
 # Fancy Source Query 可以为不同的 QQ 群设置不同的服务器组
 # 为不同的群分别提供查询服务，例如为 A 群配置服务器组 AG, 其中包含服务器 A1, A2, A3；
 # 为 B 群配置服务器组 BG，其中包含服务器 B1, B2, B3；
 # 为 开发者测试群 配置服务器组 DEVG，其中包含所有服务器；
 # 那么机器人在 A 群中查询时只会考虑 A1, A2, A3 服务器，以此类推。
-[[fancy_source_query.server_group]]
+[[fancy_source_query.server_groups]]
 name = "A"
 related_sessions = ["<QQ群号A>", "<开发者测试群>"]
-[[fancy_source_query.server_group]]
+[[fancy_source_query.server_groups]]
 name = "B"
 related_sessions = ["<QQ群号B>", "<开发者测试群>"]
 
-[[fancy_source_query.server_group.servers]]
+[[fancy_source_query.servers]]
 # 此处的 A 需要与 server_group.name 相同
 group = "A"
 name = "A1"
 host = "127.0.0.1"
 port = 65501
-[[fancy_source_query.server_group.servers]]
+[[fancy_source_query.servers]]
 group = "A"
 name = "A2"
 host = "127.0.0.1"
 port = 65502
-[[fancy_source_query.server_group.servers]]
+[[fancy_source_query.servers]]
 group = "B"
 name = "B1"
 host = "127.0.0.1"

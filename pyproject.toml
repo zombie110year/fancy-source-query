@@ -17,6 +17,7 @@ dependencies = [
     "exrex>=0.11.0",
     # 读写 toml 文件
     "toml>=0.10.2",
+    "loguru>=0.6.0",
 ]
 requires-python = ">=3.10,<4.0"
 readme = "README.md"

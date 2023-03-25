@@ -1,0 +1,41 @@
+[fancy_source_query]
+# 默认超时等待 5s
+timeout = 5
+# 默认查询池缓存 20s
+cache_delay = 20
+# 默认限制文本输出 5 行，超过 5 行的转成图片输出
+output_max_lines = 5
+# Fancy Source Query 可以配置地图数据库，方便将地图代码转换成人类可读的地图名
+# 该路径相对于 nonebot 进程工作目录
+mapnames_db = "mapnames.toml"
+
+# todo 以后实现配置 impaper
+
+# Fancy Source Query 可以为不同的 QQ 群设置不同的服务器组
+# 为不同的群分别提供查询服务，例如为 A 群配置服务器组 AG, 其中包含服务器 A1, A2, A3；
+# 为 B 群配置服务器组 BG，其中包含服务器 B1, B2, B3；
+# 为 开发者测试群 配置服务器组 DEVG，其中包含所有服务器；
+# 那么机器人在 A 群中查询时只会考虑 A1, A2, A3 服务器，以此类推。
+[[fancy_source_query.server_groups]]
+name = "A"
+related_sessions = ["<QQ群号A>", "<开发者测试群>"]
+[[fancy_source_query.server_groups]]
+name = "B"
+related_sessions = ["<QQ群号B>", "<开发者测试群>"]
+
+[[fancy_source_query.servers]]
+# 此处的 A 需要与 server_group.name 相同
+group = "A"
+name = "A1"
+host = "127.0.0.1"
+port = 65501
+[[fancy_source_query.servers]]
+group = "A"
+name = "A2"
+host = "127.0.0.1"
+port = 65502
+[[fancy_source_query.servers]]
+group = "B"
+name = "B1"
+host = "127.0.0.1"
+port = 64501
