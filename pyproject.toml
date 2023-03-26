@@ -15,6 +15,7 @@ dependencies = [
     "exrex>=0.11.0",
     # 读写 toml 文件
     "toml>=0.10.2",
+    "nonebot-adapter-onebot>=2.2.2",
 ]
 requires-python = ">=3.10,<4.0"
 readme = "README.md"

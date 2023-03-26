@@ -13,7 +13,7 @@ from base64 import b64encode
 import exrex
 from impaper import SimpleTextDrawer
 from nonebot import get_driver, on_command
-from nonebot.adapters import Bot, Event, Message
+from nonebot.adapters.onebot.v11 import Bot, Event, Message
 from nonebot.exception import ActionFailed
 from nonebot.params import CommandArg
 from nonebot.permission import SUPERUSER
@@ -52,12 +52,12 @@ async def _query(bot: Bot, ev: Event, qstr: Message = CommandArg()):
     m = __RE_SESSION.fullmatch(session)
     if m:
         # 群聊环境
-        session = m[1]
-        user = m[2]
+        session = int(m[1])
+        user = int(ev.get_user_id())
         private = False
     else:
         # 私聊环境
-        session = ev.get_user_id()
+        session = int(ev.get_user_id())
         user = None
         private = True
     gname = FSQ.find_gname_from_session(session)
@@ -72,18 +72,18 @@ async def _query(bot: Bot, ev: Event, qstr: Message = CommandArg()):
         ttime = FSQ.ifmt.fmt_time(qtime)
         text = f"{fmts}\n\n----{ttime}"
 
-    if len(text.count("\n") > FSQ.config.output_max_lines):
+    if text.count("\n") > FSQ.config.output_max_lines:
         im = FSQ.t2g.draw(text)
         text = im2cqcode(im)
         logging.debug(f"build image, cq code length = {len(text)}.")
 
     if private:
-        msg = Message(text)
+        msg = text
     else:
-        msg = Message(f"[CQ:at,qq={user}]\n{text}")
+        msg = f"[CQ:at,qq={user}]\n{text}"
 
     try:
-        await query.finish(msg)
+        await query.finish(Message(msg))
     except ActionFailed:
         logging.error(f"message send failed: {text!r}")
         await query.finish()
