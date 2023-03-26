@@ -48,6 +48,8 @@ class FancySourceQueryConfig(BaseModel, extra=Extra.ignore):
     # Fancy Source Query 可以配置地图数据库，方便将地图代码转换成人类可读的地图名
     # 该路径相对于 nonebot 进程工作目录
     mapnames_db: str = DEFAULT_MAPNAMES_PATH
+    # 默认的服务器组
+    default_server_group: str
 
     fmt: FmtConfig
     server_groups: list[ServerGroupConfig]

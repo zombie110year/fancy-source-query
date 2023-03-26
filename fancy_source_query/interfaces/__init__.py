@@ -43,6 +43,8 @@ class FancySourceQuery:
     ifmt: InfoFormatter
     server_group: dict[str, ServerGroup]
     servers: dict[str, Server]
+    # session_id => server_group name
+    session_group: dict[str, str]
     qstr_pat_overview: re.Pattern
     qstr_pat_server_name: re.Pattern
 
@@ -61,6 +63,9 @@ class FancySourceQuery:
         )
         self.server_group = groups
         self.servers = servers
+        self.session_group = {
+            s: g.name for g in self.config.server_groups for s in g.related_sessions
+        }
         self.qstr_pat_overview = re.compile(r"^(?:人数)?$")
         all_server_names = "|".join(self.servers.keys())
         self.qstr_pat_server_name = re.compile(f"^(?:{all_server_names})$")
@@ -72,7 +77,7 @@ class FancySourceQuery:
         self.ifmt.config(rlookup=self.map_rlookup)
         logging.debug("mapnames refreshed")
 
-    def find_server(self, sname: str, gname: str) -> Server:
+    def find_server(self, sname: str, gname: str | None) -> Server:
         """在指定的服务器组中寻找服务器"""
         group = self.find_group(gname)
         server = group.servers.get(sname, None)
@@ -81,15 +86,20 @@ class FancySourceQuery:
             raise ObjectNotFound("server in group not found", gname, sname)
         return server
 
-    def find_group(self, gname: str) -> ServerGroup:
+    def find_group(self, gname: str | None) -> ServerGroup:
         """根据组名寻找服务器组"""
+        if gname is None:
+            gname = self.config.default_server_group
+            logging.info("use default server group {gname!r}.")
         group = self.server_group.get(gname, None)
         if group is None:
             logging.error(f"server group {gname!r} not found.")
             raise ObjectNotFound("server group not found", gname)
         return group
 
-    async def query_server(self, sname: str, gname: str) -> tuple[float, ServerInfo]:
+    async def query_server(
+        self, sname: str, gname: str | None
+    ) -> tuple[float, ServerInfo]:
         """根据服务器组和服务器的名称查询服务器信息，返回查询时间 和 Server Info"""
         server = self.find_server(sname, gname)
         host, port = server.host, server.port
@@ -97,7 +107,7 @@ class FancySourceQuery:
         return qtime, sinfo
 
     async def query_server_and_players(
-        self, sname: str, gname: str
+        self, sname: str, gname: str | None
     ) -> tuple[float, ServerPair]:
         """根据服务器组和服务器的名称查询服务器信息和玩家信息，
         返回查询时间 和 ServerPair"""
@@ -110,7 +120,7 @@ class FancySourceQuery:
         return qtime, spair
 
     async def query_server_and_players_multi(
-        self, snames: list[str], gname: str
+        self, snames: list[str], gname: str | None
     ) -> tuple[float, list[ServerPair]]:
         """查询多个服务器的信息和玩家信息，返回最晚查询时间和 list[ServerPair]"""
         servers = []
@@ -135,7 +145,7 @@ class FancySourceQuery:
         return qtime, pairs
 
     async def query_servers_overview(
-        self, gname: str
+        self, gname: str | None
     ) -> tuple[float, list[ServerInfo]]:
         """查询某服务器组内的服务器信息，返回最晚查询时间和 `list[ServerInfo]`
 
@@ -151,7 +161,7 @@ class FancySourceQuery:
         return qtime, sinfos
 
     async def search_player(
-        self, player_regex: str, gname: str
+        self, player_regex: str, gname: str | None
     ) -> tuple[float, list[ServerPair] | None]:
         """在某个组中查找某些玩家，只要玩家名中含有 `player` 的片段，
         便会认为是查找目标。
@@ -193,7 +203,7 @@ class FancySourceQuery:
         return (qtime, pairs)
 
     async def query(
-        self, gname: str, qstr: str
+        self, gname: str | None, qstr: str
     ) -> tuple[
         float, None | list[ServerPair] | list[ServerInfo] | ServerPair | ServerInfo
     ]:
@@ -220,3 +230,7 @@ class FancySourceQuery:
             return await self.query_server_and_players_multi(servers, gname)
         # 尝试搜索玩家
         return await self.search_player(qstr, gname)
+
+    def find_gname_from_session(self, session: str) -> str | None:
+        """根据群号查找相关的服务器组，如果找不到则返回 None"""
+        return self.session_group.get(session, None)
