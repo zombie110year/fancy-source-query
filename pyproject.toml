@@ -1,7 +1,7 @@
 [project]
-name = "nonebot_plugin_fancy_source_query"
+name = "fancy_source_query"
 version = "0.1.0"
-description = "A plugin integrates source server query into nonebot."
+description = "Intelligent tool to query source servers, with a cli interface and plugin integrates into nonebot."
 authors = [{ name = "zombie110year", email = "zombie110year@outlook.com" }]
 dependencies = [
     "nonebot2[fastapi]>=2.0.0rc3",
