@@ -6,7 +6,7 @@ def guess_map(rlookup: dict[str, Mapname], code: str):
     如果没有，则返回 None；
     如果有则优先返回 name_zh，如果没有 name_zh 则返回 name。
     """
-    mapname = rlookup.get(code, None)
+    mapname = rlookup.get(code.lower(), None)
     if mapname:
         if name := mapname.name_zh:
             return name
@@ -17,4 +17,4 @@ def guess_map(rlookup: dict[str, Mapname], code: str):
 
 
 def build_rlookup(mapnames: list[Mapname]) -> dict[str, Mapname]:
-    return {mapcode: obj for obj in mapnames for mapcode in obj.maps}
+    return {mapcode.lower(): obj for obj in mapnames for mapcode in obj.maps}
