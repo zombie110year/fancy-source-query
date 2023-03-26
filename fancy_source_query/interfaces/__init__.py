@@ -43,6 +43,8 @@ class FancySourceQuery:
     ifmt: InfoFormatter
     server_group: dict[str, ServerGroup]
     servers: dict[str, Server]
+    qstr_pat_overview: re.Pattern
+    qstr_pat_server_name: re.Pattern
 
     def __init__(self) -> None:
         self.query_pool = QueryPool()
@@ -59,6 +61,9 @@ class FancySourceQuery:
         )
         self.server_group = groups
         self.servers = servers
+        self.qstr_pat_overview = re.compile(r"^(?:人数)?$")
+        all_server_names = "|".join(self.servers.keys())
+        self.qstr_pat_server_name = re.compile(f"^(?:{all_server_names})$")
 
     def update_mapnames(self):
         mapnames = toml.load(self.config.mapnames_db)
@@ -147,7 +152,7 @@ class FancySourceQuery:
 
     async def search_player(
         self, player_regex: str, gname: str
-    ) -> tuple[float, list[ServerPair]] | tuple[float, None]:
+    ) -> tuple[float, list[ServerPair] | None]:
         """在某个组中查找某些玩家，只要玩家名中含有 `player` 的片段，
         便会认为是查找目标。
         返回最晚查询时间和相关的服务器与玩家信息。
@@ -172,6 +177,7 @@ class FancySourceQuery:
         qtime = 0.0
         for i, (qt, si, pi) in enumerate(total):
             for p in pi:
+                # 忽略空白字符
                 if pat.search(WHITESPACE.sub("", p.name)):
                     qtime = max(qtime, qt)
                     if i not in occursins:
@@ -185,3 +191,32 @@ class FancySourceQuery:
             key=lambda pair: pair.server.name,
         )
         return (qtime, pairs)
+
+    async def query(
+        self, gname: str, qstr: str
+    ) -> tuple[
+        float, None | list[ServerPair] | list[ServerInfo] | ServerPair | ServerInfo
+    ]:
+        """根据 qstr 内容进行查询：
+
+        1. qstr 是空字符串或“人数” - 调用 `query_servers_overview`
+        2. qstr 是已知的服务器名 - 调用 `query_server_and_players`
+        3. qstr 是空格分隔的服务器名 - 调用 `query_server_and_players_multi`
+        4. qstr 是其它情况 - 调用 `search_player`
+        """
+        qstr = qstr.strip()
+        if self.qstr_pat_overview.fullmatch(qstr):
+            return await self.query_servers_overview(gname)
+        if self.qstr_pat_server_name.fullmatch(qstr):
+            return await self.query_server_and_players(qstr, gname)
+        # 先尝试是不是查询多个服务器
+        if " " in qstr:
+            # 忽略不认识的
+            servers = [
+                name
+                for name in qstr.split(" ")
+                if self.qstr_pat_server_name.fullmatch(name)
+            ]
+            return await self.query_server_and_players_multi(servers, gname)
+        # 尝试搜索玩家
+        return await self.search_player(qstr, gname)

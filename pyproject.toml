@@ -2,9 +2,7 @@
 name = "nonebot_plugin_fancy_source_query"
 version = "0.1.0"
 description = "A plugin integrates source server query into nonebot."
-authors = [
-    {name = "zombie110year", email = "zombie110year@outlook.com"},
-]
+authors = [{ name = "zombie110year", email = "zombie110year@outlook.com" }]
 dependencies = [
     "nonebot2[fastapi]>=2.0.0rc3",
     # 提供 source server query 接口
@@ -21,18 +19,16 @@ dependencies = [
 ]
 requires-python = ">=3.10,<4.0"
 readme = "README.md"
-license = {text = "MIT"}
+license = { text = "MIT" }
 
+[project.scripts]
+fsq = "fancy_source_query.interfaces.cli:cli_main"
 
 [tool.pdm]
+
 [tool.pdm.dev-dependencies]
-test = [
-    "nonebug>=0.3.1",
-    "pytest-asyncio>=0.21.0",
-]
-dev = [
-    "black>=23.1.0",
-]
+test = ["nonebug>=0.3.1", "pytest-asyncio>=0.21.0"]
+dev = ["black>=23.1.0"]
 
 [build-system]
 requires = ["pdm-pep517>=1.0"]
