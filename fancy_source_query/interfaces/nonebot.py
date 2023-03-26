@@ -61,7 +61,7 @@ async def _query(bot: Bot, ev: Event, qstr: Message = CommandArg()):
         user = None
         private = True
     gname = FSQ.find_gname_from_session(session)
-    qtime, result = await FSQ.query(gname, qstr)
+    qtime, result = await FSQ.query(gname, str(qstr))
     if result is None:
         text = f"【{qstr}】不在哦~😥"
     else:
