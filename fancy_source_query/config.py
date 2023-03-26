@@ -5,6 +5,7 @@ from pathlib import Path
 import toml
 from nonebot import get_driver
 from pydantic import BaseModel, Extra
+from impaper.config import Config as ImPaperConfig
 
 NONEBOT_CONFIG_KEY = "fancy_source_query_config"
 CONFIG_PATH_PREFIX = "fancy_source_query"
@@ -48,9 +49,12 @@ class FancySourceQueryConfig(BaseModel, extra=Extra.ignore):
     # Fancy Source Query 可以配置地图数据库，方便将地图代码转换成人类可读的地图名
     # 该路径相对于 nonebot 进程工作目录
     mapnames_db: str = DEFAULT_MAPNAMES_PATH
-    # 默认的服务器组
+    # 默认的服务器组，在不传入组名时使用此组
     default_server_group: str
+    # 转图片时的字号
+    fontsize = 16
 
+    impaper: ImPaperConfig
     fmt: FmtConfig
     server_groups: list[ServerGroupConfig]
     servers: list[ServerConfig]

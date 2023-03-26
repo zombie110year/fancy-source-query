@@ -27,11 +27,7 @@ _global_config = get_driver().config
 _nonebot_config = NonebotConfig.parse_obj(_global_config)
 FSQ = FancySourceQuery()
 FSQ.update_config(_nonebot_config.fancy_source_query_config)
-T2G = SimpleTextDrawer()
-# 让背景色柔和一点
-T2G.bg_color = 0x2E
-T2G.conf.layout.margin = (6, 18, 6, 6)
-T2G.fontsize = 16
+FSQ.lazy_load_t2g(SimpleTextDrawer())
 
 
 query = on_command("query", aliases=set(exrex.generate("查[查询]?")), rule=to_me())
@@ -77,7 +73,7 @@ async def _query(bot: Bot, ev: Event, qstr: Message = CommandArg()):
         text = f"{fmts}\n\n----{ttime}"
 
     if len(text.count("\n") > FSQ.config.output_max_lines):
-        im = T2G.draw(text)
+        im = FSQ.t2g.draw(text)
         text = im2cqcode(im)
         logging.debug(f"build image, cq code length = {len(text)}.")
 

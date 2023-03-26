@@ -21,7 +21,7 @@ from ..guess_map import build_rlookup
 from ..querypool import QueryPool
 from ..querypool.infos import PlayerInfo, ServerInfo, ServerPair
 from ..server_group import Server, ServerGroup, build_server_group_graph
-
+from impaper.draw import TextDrawer
 
 WHITESPACE = re.compile("[ \u2002\u2003]")
 
@@ -48,6 +48,8 @@ class FancySourceQuery:
     session_group: dict[str, str]
     qstr_pat_overview: re.Pattern
     qstr_pat_server_name: re.Pattern
+    # text to graphic 引擎，按需加载
+    t2g: TextDrawer | None
 
     def __init__(self) -> None:
         self.query_pool = QueryPool()
@@ -71,6 +73,9 @@ class FancySourceQuery:
         all_server_names = "|".join(self.servers.keys())
         self.qstr_pat_server_name = re.compile(f"^(?:{all_server_names})$")
         socket.setdefaulttimeout(self.config.timeout)
+        if self.t2g is not None:
+            self.t2g.conf = self.config.impaper
+            self.t2g.fontsize = self.config.fontsize
 
     def update_mapnames(self):
         mapnames = toml.load(self.config.mapnames_db)
@@ -236,3 +241,9 @@ class FancySourceQuery:
     def find_gname_from_session(self, session: str) -> str | None:
         """根据群号查找相关的服务器组，如果找不到则返回 None"""
         return self.session_group.get(session, None)
+
+    def lazy_load_t2g(self, t2g: TextDrawer):
+        """需要时再加载"""
+        self.t2g = t2g
+        self.t2g.conf = self.config.impaper
+        self.t2g.fontsize = self.config.fontsize
