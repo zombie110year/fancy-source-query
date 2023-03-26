@@ -21,17 +21,40 @@ FancySourceQuery(以下简称FSQ) 插件可以查询 Source 服务器的名称�
 
 该插件的所有功能都提供 Python 接口或命令行接口，可以在不启动 Nonebot 的情况下执行，以便调试。
 
++ Python 接口为 `fancy_source_query.interfaces:FancySourceQuery` 此对象的所有方法都返回适合 Python 处理的对象
++ Cli 接口在 `fancy_source_query.interfaces.cli:cli_main` 此方法提供了命令行的程序调用
++ nonebot 接口在 `fancy_source_query.interfaces.nonebot` 此模块中定义了 Nonebot 响应函数，只支持 Onebot v11 程序
+
 ## 相关文件
+
+运行时，你的项目文件夹下必须有这两个文件：
 
 1. `fancy_source_query.toml` ： 默认的配置文件
 2. `mapnames.toml` ： 默认的地图数据文件，其中储存了地图的原名、中文名、地图代码，以便插件生成对应的反查表
+
+文件内容可以查看仓库中的示例，其中 `mapnames.toml` 文件在另一地址有随时更新的版本 （TODO）
 
 ## 安装
 
 将此插件添加到 Nonebot 项目的依赖中，可以使用 nb-cli 或者 pdm, poetry, pip 等
 包管理工具安装。
 
-TODO
+例如：
+
+```sh
+pdm add fancy_source_query
+```
+
+然后在 `pyproject.toml` 中配置：
+
+```toml
+[tool.nonebot]
+plugins = [
+    # ...
+    "fancy_source_query.interfaces.nonebot",
+    # ...
+]
+```
 
 ## 配置
 
@@ -55,8 +78,31 @@ output_max_lines = 5
 # Fancy Source Query 可以配置地图数据库，方便将地图代码转换成人类可读的地图名
 # 该路径相对于 nonebot 进程工作目录
 mapnames_db = "mapnames.toml"
+# 默认的服务器组，在不传入组名时使用此组
+default_server_group = "A"
+# 转图片时的字号，px
+fontsize = 16
 
-# todo 以后实现配置 impaper
+[fancy_source_query.impaper]
+# 建议留空，加载默认的更纱黑体，
+# 或者指定一个 ttf 文件的路径。
+# font.path =
+[fancy_source_query.impaper.layout]
+# 外边距，按上右下左的顺序（和 CSS 里的习惯一致），px
+# 右边距建议拉大一点，防止手机上看时像素被遮住
+margin = [6, 6, 18, 6]
+# 内边距，按上右下左的顺序（和 CSS 里的习惯一致），px
+padding = [2, 2, 2, 2]
+# 行间距，px
+spacing = 2
+
+# 格式化查询数据的模板
+[fancy_source_query.fmt]
+server_info = "{name}\n==({players:>2d}/{max_players:>2d})[{mapname}]"
+player_info = ">>[{score}]({minutes:.1f}min){name}"
+rule_info = "({key} = {value})"
+# strftime 格式符
+time = "%Y-%m-%d %H:%M:%S"
 
 # Fancy Source Query 可以为不同的 QQ 群设置不同的服务器组
 # 为不同的群分别提供查询服务，例如为 A 群配置服务器组 AG, 其中包含服务器 A1, A2, A3；
@@ -87,3 +133,5 @@ name = "B1"
 host = "127.0.0.1"
 port = 64501
 ```
+
+在修改完配置文件后，可以通过 SUPERUSER 账号向机器人发送 "刷新" 指令，以热重载配置和数据。

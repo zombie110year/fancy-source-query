@@ -33,7 +33,6 @@ player_info = ">>[{score}]({minutes:.1f}min){name}"
 rule_info = "({key} = {value})"
 # strftime 格式符
 time = "%Y-%m-%d %H:%M:%S"
-# todo 以后实现配置 impaper
 
 # Fancy Source Query 可以为不同的 QQ 群设置不同的服务器组
 # 为不同的群分别提供查询服务，例如为 A 群配置服务器组 AG, 其中包含服务器 A1, A2, A3；
