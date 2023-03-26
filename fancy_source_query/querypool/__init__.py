@@ -2,8 +2,9 @@
 import logging
 from time import time
 
+import fancy_source_query.fmt as fmt
+
 from ..exceptions import QueryTimeout
-from ..fmt import fmt_time
 from .infos import PlayerInfo, ServerInfo, players_info, server_info
 
 
@@ -55,7 +56,7 @@ class QueryPool:
             # 超时，重查
             querytime, sinfo = await self.new_server_info(host, port)
             return (querytime, sinfo)
-        logging.debug(f"read cache({fmt_time(cache_time)}) {cached!r}")
+        logging.debug(f"read cache({fmt.fmt_time(cache_time)}) {cached!r}")
         return (cache_time, cached)
 
     async def new_server_info(self, host: str, port: int) -> tuple[float, ServerInfo]:
@@ -74,7 +75,7 @@ class QueryPool:
                 vac=False,
                 ping=0.0,
             )
-        logging.debug(f"new server query({fmt_time(querytime)}) {sinfo!r}")
+        logging.debug(f"new server query({fmt.fmt_time(querytime)}) {sinfo!r}")
         self.__server_cache[(host, port)] = (querytime, sinfo)
         return (querytime, sinfo)
 
@@ -99,7 +100,7 @@ class QueryPool:
             # 超时，重查
             querytime, pinfo = await self.new_players_info(host, port)
             return (querytime, pinfo)
-        logging.debug(f"read cache({fmt_time(cache_time)}) {cached!r}")
+        logging.debug(f"read cache({fmt.fmt_time(cache_time)}) {cached!r}")
         return (cache_time, cached)
 
     async def new_players_info(
@@ -113,6 +114,6 @@ class QueryPool:
             pinfo = await players_info(host, port)
         except QueryTimeout:
             return querytime, []
-        logging.debug(f"new players query({fmt_time(querytime)}) {pinfo!r}")
+        logging.debug(f"new players query({fmt.fmt_time(querytime)}) {pinfo!r}")
         self.__players_cache[(host, port)] = (querytime, pinfo)
         return (querytime, pinfo)
