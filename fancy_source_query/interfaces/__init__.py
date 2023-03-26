@@ -10,6 +10,7 @@
 import asyncio
 import logging
 import re
+import socket
 
 import toml
 
@@ -69,6 +70,7 @@ class FancySourceQuery:
         self.qstr_pat_overview = re.compile(r"^(?:人数)?$")
         all_server_names = "|".join(self.servers.keys())
         self.qstr_pat_server_name = re.compile(f"^(?:{all_server_names})$")
+        socket.setdefaulttimeout(self.config.timeout)
 
     def update_mapnames(self):
         mapnames = toml.load(self.config.mapnames_db)

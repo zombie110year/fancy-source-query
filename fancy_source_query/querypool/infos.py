@@ -7,9 +7,6 @@ from steam.game_servers import a2s_info, a2s_players, a2s_rules
 
 from ..exceptions import QueryTimeout
 
-# 全局五秒超时
-socket.setdefaulttimeout(5)
-
 
 class PlayerInfo(BaseModel):
     name: str
