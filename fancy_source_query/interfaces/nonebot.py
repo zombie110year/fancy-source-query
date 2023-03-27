@@ -21,7 +21,7 @@ from nonebot.rule import to_me
 from PIL.Image import Image
 
 from ..config import NonebotConfig
-from . import FancySourceQuery
+from . import FancySourceQuery, ServerInfo, ServerPair
 
 _global_config = get_driver().config
 _nonebot_config = NonebotConfig.parse_obj(_global_config)
@@ -67,10 +67,20 @@ async def _query(bot: Bot, ev: Event, qstr: Message = CommandArg()):
     else:
         if isinstance(result, list):
             fmts = "\n".join(FSQ.ifmt.format(r) for r in result)
+            players = 0
+            for r in result:
+                if isinstance(r, ServerPair):
+                    players += r.server.players
+                elif isinstance(r, ServerInfo):
+                    players += r.players
         else:
             fmts = FSQ.ifmt.format(result)
+            players = None
         ttime = FSQ.ifmt.fmt_time(qtime)
-        text = f"{fmts}\n\n----{ttime}"
+        if players:
+            text = f"{fmts}\n\nPlayers: {players}\n----{ttime}"
+        else:
+            text = f"{fmts}\n\n----{ttime}"
 
     if text.count("\n") > FSQ.config.output_max_lines:
         im = FSQ.t2g.draw(text)
