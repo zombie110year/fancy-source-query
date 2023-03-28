@@ -86,6 +86,7 @@ class InfoFormatter:
         if name:
             return f"{name}|{code}"
         else:
+            logging.warning(f"未知的地图代码：{code}")
             return code
 
     def fmt_time(self, t: float) -> str:
