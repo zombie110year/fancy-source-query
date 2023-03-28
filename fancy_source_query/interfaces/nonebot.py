@@ -52,12 +52,12 @@ async def _query(bot: Bot, ev: Event, qstr: Message = CommandArg()):
     m = __RE_SESSION.fullmatch(session)
     if m:
         # 群聊环境
-        session = int(m[1])
-        user = int(ev.get_user_id())
+        session = m[1]
+        user = ev.get_user_id()
         private = False
     else:
         # 私聊环境
-        session = int(ev.get_user_id())
+        session = ev.get_user_id()
         user = None
         private = True
     gname = FSQ.find_gname_from_session(session)
