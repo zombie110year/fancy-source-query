@@ -25,6 +25,11 @@ margin = [6, 6, 18, 6]
 padding = [2, 2, 2, 2]
 # 行间距，px
 spacing = 2
+[fancy_source_query.impaper.typesetting]
+# 行宽，英文1，汉字2
+line_width = 52
+# 折行缩进
+indentation = "  "
 
 # 格式化查询数据的模板
 [fancy_source_query.fmt]
