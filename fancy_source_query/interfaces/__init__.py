@@ -98,7 +98,7 @@ class FancySourceQuery:
         """根据组名寻找服务器组"""
         if gname is None:
             gname = self.config.default_server_group
-            logging.info("use default server group {gname!r}.")
+            logging.info(f"use default server group {gname!r}.")
         group = self.server_group.get(gname, None)
         if group is None:
             logging.error(f"server group {gname!r} not found.")
