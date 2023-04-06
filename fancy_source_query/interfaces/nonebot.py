@@ -142,7 +142,9 @@ def im2cqcode(im: Image) -> str:
 
 async def get_group_member_name(bot: Bot, group: str, id: str) -> str:
     """查询群聊中成员名称，如果有群名片，则获取群名片，否则获取昵称"""
-    info = await bot.get_group_member_info(int(group), int(id), no_cache=True)
+    info = await bot.get_group_member_info(
+        group_id=int(group), user_id=int(id), no_cache=True
+    )
     name = info.get("card", "")
     if name == "":
         name = info.get("nickname", ".")
