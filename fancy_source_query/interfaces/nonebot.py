@@ -61,7 +61,14 @@ async def _query(bot: Bot, ev: Event, qstr: Message = CommandArg()):
         user = None
         private = True
     gname = FSQ.find_gname_from_session(session)
-    qtime, result = await FSQ.query(gname, str(qstr))
+    maybe_at = str(qstr).strip()
+    if m := __RE_CQAT.fullmatch(maybe_at):
+        target_qq = m[1]
+        name = await get_group_member_name(bot, session, target_qq)
+        qtime, result = await search_user_by_qq_name(gname, name)
+        qstr = name
+    else:
+        qtime, result = await FSQ.query(gname, str(qstr))
     if result is None:
         text = f"【{qstr}】不在哦~😥"
     else:
@@ -131,3 +138,23 @@ def im2cqcode(im: Image) -> str:
     b64 = b64encode(b).decode()
     cqcode = f"[CQ:image,file=base64://{b64},subType=1]"
     return cqcode
+
+
+async def get_group_member_name(bot: Bot, group: str, id: str) -> str:
+    """查询群聊中成员名称，如果有群名片，则获取群名片，否则获取昵称"""
+    info = await bot.get_group_member_info(int(group), int(id), no_cache=True)
+    name = info.get("card", "")
+    if name == "":
+        name = info.get("nickname", ".")
+    return name
+
+
+async def search_user_by_qq_name(
+    gname: str, name: str
+) -> tuple[float, list[ServerPair] | None]:
+    """搜索玩家，如果全名找不到，则搜索含任意一个字的名称"""
+    qtime, result = await FSQ.search_player(name, gname)
+    if result is None:
+        pat = f"[{name}]"
+        qtime, result = await FSQ.search_player(pat, gname)
+    return qtime, result
