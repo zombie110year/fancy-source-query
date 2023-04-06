@@ -5,7 +5,7 @@ from pydantic import BaseModel
 
 from steam.game_servers import a2s_info, a2s_players, a2s_rules
 
-from ..exceptions import QueryTimeout
+from ..exceptions import QueryTimeout, ServerRestarting
 
 
 class PlayerInfo(BaseModel):
@@ -61,6 +61,8 @@ async def server_info(host: str, port: int) -> ServerInfo:
         info = a2s_info(server_addr=(host, port))
     except socket.timeout:
         raise QueryTimeout({"host": host, "port": port})
+    except ConnectionRefusedError:
+        raise ServerRestarting({"host": host, "port": port})
 
     info_ = {
         "name": info["name"],
@@ -91,6 +93,8 @@ async def players_info(host: str, port: int) -> list[PlayerInfo]:
         info = a2s_players(server_addr=(host, port))
     except socket.timeout:
         raise QueryTimeout({"host": host, "port": port})
+    except ConnectionRefusedError:
+        raise ServerRestarting({"host": host, "port": port})
 
     logging.debug(f"new players info query to {host}:{port}")
     return sorted([PlayerInfo(**i) for i in info], key=lambda o: -o.score)
@@ -106,4 +110,7 @@ async def rules_info(host: str, port: int) -> list[RuleInfo]:
         info = a2s_rules(server_addr=(host, port))
     except socket.timeout:
         raise QueryTimeout({"host": host, "port": port})
+    except ConnectionRefusedError:
+        raise ServerRestarting({"host": host, "port": port})
+
     return [RuleInfo(**i) for i in info]

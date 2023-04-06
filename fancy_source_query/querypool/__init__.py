@@ -4,7 +4,7 @@ from time import time
 
 import fancy_source_query.fmt as fmt
 
-from ..exceptions import QueryTimeout
+from ..exceptions import QueryTimeout, ServerRestarting
 from .infos import PlayerInfo, ServerInfo, players_info, server_info
 
 
@@ -75,6 +75,15 @@ class QueryPool:
                 vac=False,
                 ping=0.0,
             )
+        except ServerRestarting:
+            return querytime, ServerInfo(
+                name="换图或重启",
+                players=0,
+                max_players=0,
+                map="unknown",
+                vac=False,
+                ping=0.0,
+            )
         logging.debug(f"new server query({fmt.fmt_time(querytime)}) {sinfo!r}")
         self.__server_cache[(host, port)] = (querytime, sinfo)
         return (querytime, sinfo)
@@ -114,6 +123,9 @@ class QueryPool:
             pinfo = await players_info(host, port)
         except QueryTimeout:
             return querytime, []
+        except ServerRestarting:
+            return querytime, []
+
         logging.debug(f"new players query({fmt.fmt_time(querytime)}) {pinfo!r}")
         self.__players_cache[(host, port)] = (querytime, pinfo)
         return (querytime, pinfo)

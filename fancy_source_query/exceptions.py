@@ -6,9 +6,13 @@ class CannotLoadConfig(FancySourceQueryError):
     pass
 
 
-class QueryTimeout(TimeoutError):
+class QueryTimeout(TimeoutError, FancySourceQueryError):
     pass
 
 
 class ObjectNotFound(FancySourceQueryError):
+    pass
+
+
+class ServerRestarting(ConnectionRefusedError, FancySourceQueryError):
     pass
