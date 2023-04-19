@@ -43,11 +43,16 @@ class InfoFormatter:
             return self.fmt_server_triple(info)
 
     def fmt_server_info(self, info: ServerInfo) -> str:
+        name, code = self.guess_map(info.map)
+        if name:
+            mapname = f"{name}|{code}"
+        else:
+            mapname = code
         fmt = self.__fmt.server_info.format(
             name=info.name,
             players=info.players,
             max_players=info.max_players,
-            mapname=self.guess_map(info.map),
+            mapname=mapname,
         )
         return fmt
 
@@ -81,13 +86,13 @@ class InfoFormatter:
         return "{}\n{}\n{}".format(sfmt, "\n".join(pfmt), "\n".join(rfmt))
 
     def guess_map(self, code: str) -> str:
-        "除了 guess map 之外还需要完成格式化任务 name|code"
+        "返回 name, code 元组"
         name = guess_map(self.__rlookup, code)
         if name:
-            return f"{name}|{code}"
+            return name, code
         else:
             logging.warning(f"未知的地图代码：{code}")
-            return code
+            return None, code
 
     def fmt_players_count(self, p: int) -> str:
         "格式化总人数统计"
