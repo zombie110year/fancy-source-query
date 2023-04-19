@@ -7,11 +7,10 @@
 """
 import logging
 import re
-from io import BytesIO
 from base64 import b64encode
+from io import BytesIO
 
 import exrex
-from impaper import SimpleTextDrawer
 from nonebot import get_driver, on_command
 from nonebot.adapters.onebot.v11 import Bot, Event, Message
 from nonebot.exception import ActionFailed
@@ -20,8 +19,10 @@ from nonebot.permission import SUPERUSER
 from nonebot.rule import to_me
 from PIL.Image import Image
 
+from impaper import SimpleTextDrawer
+
 from ..config import NonebotConfig
-from . import FancySourceQuery, ServerInfo, ServerPair
+from . import FancySourceQuery, QueryResult, ServerInfo, ServerPair, fmt_qresult
 
 _global_config = get_driver().config
 _nonebot_config = NonebotConfig.parse_obj(_global_config)
@@ -65,30 +66,11 @@ async def _query(bot: Bot, ev: Event, qstr: Message = CommandArg()):
     if m := __RE_CQAT.fullmatch(maybe_at):
         target_qq = m[1]
         name = await get_group_member_name(bot, session, target_qq)
-        qtime, result = await search_user_by_qq_name(gname, name)
+        qresult: QueryResult = await search_user_by_qq_name(gname, name)
         qstr = name
     else:
-        qtime, result = await FSQ.query(gname, str(qstr))
-    if result is None:
-        text = f"【{qstr}】不在哦~😥"
-    else:
-        if isinstance(result, list):
-            fmts = "\n".join(FSQ.ifmt.format(r) for r in result)
-            players = 0
-            for r in result:
-                if isinstance(r, ServerPair):
-                    players += r.server.players
-                elif isinstance(r, ServerInfo):
-                    players += r.players
-        else:
-            fmts = FSQ.ifmt.format(result)
-            players = None
-        ttime = FSQ.ifmt.fmt_time(qtime)
-        if players:
-            text = f"{fmts}\n\nPlayers: {players}\n----{ttime}"
-        else:
-            text = f"{fmts}\n\n----{ttime}"
-
+        qresult: QueryResult = await FSQ.query(gname, str(qstr))
+    text = await fmt_qresult(FSQ, qresult, qstr)
     if text.count("\n") > FSQ.config.output_max_lines:
         im = FSQ.t2g.draw(text)
         text = im2cqcode(im)
@@ -153,10 +135,10 @@ async def get_group_member_name(bot: Bot, group: str, id: str) -> str:
 
 async def search_user_by_qq_name(
     gname: str, name: str
-) -> tuple[float, list[ServerPair] | None]:
+) -> QueryResult:
     """搜索玩家，如果全名找不到，则搜索含任意一个字的名称"""
-    qtime, result = await FSQ.search_player(name, gname)
-    if result is None:
+    result = await FSQ.search_player(name, gname)
+    if result.result is None:
         pat = f"[{name}]"
-        qtime, result = await FSQ.search_player(pat, gname)
-    return qtime, result
+        result = await FSQ.search_player(pat, gname)
+    return result

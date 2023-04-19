@@ -33,6 +33,8 @@ class FmtConfig(BaseModel, extra=Extra.ignore):
     server_info: str = "{name}\n==({players:>2d}/{max_players:>2d})[{mapname}]"
     player_info: str = ">>[{score}]({minutes:.1f}min){name}"
     rule_info: str = "({key} = {value})"
+    players_count: str = "Players: {players}"
+    query_time: str = "----{time}"
     # strftime 格式符
     time: str = "%Y-%m-%d %H:%M:%S"
 

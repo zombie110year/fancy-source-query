@@ -11,8 +11,12 @@ import asyncio
 import logging
 import re
 import socket
+from typing import Literal
 
 import toml
+from pydantic import BaseModel
+
+from impaper.draw import TextDrawer
 
 from ..config import MAPNAMES_PATH_PREFIX, FancySourceQueryConfig, Mapname, load_config
 from ..exceptions import ObjectNotFound
@@ -21,9 +25,24 @@ from ..guess_map import build_rlookup
 from ..querypool import QueryPool
 from ..querypool.infos import PlayerInfo, ServerInfo, ServerPair
 from ..server_group import Server, ServerGroup, build_server_group_graph
-from impaper.draw import TextDrawer
 
 WHITESPACE = re.compile("[ \u2002\u2003]")
+
+
+class QueryResult(BaseModel):
+    """查询结果
+
+    + tag : 查询类型，一共有一下几种：
+        + o : overview
+        + s : only server
+        + sp : server and players
+        + spm : server and players multi
+        + p : search player
+    """
+    tag: Literal["o", "s", "sp", "spm", "p"]
+    # query time
+    qtime: float
+    result: None | list[ServerPair] | list[ServerInfo] | ServerPair | ServerInfo
 
 
 class FancySourceQuery:
@@ -107,16 +126,17 @@ class FancySourceQuery:
 
     async def query_server(
         self, sname: str, gname: str | None
-    ) -> tuple[float, ServerInfo]:
+    ) -> QueryResult:
         """根据服务器组和服务器的名称查询服务器信息，返回查询时间 和 Server Info"""
         server = self.find_server(sname, gname)
         host, port = server.host, server.port
         qtime, sinfo = await self.query_pool.server_info(host, port)
-        return qtime, sinfo
+        r = QueryResult(tag="s", qtime=qtime, result=sinfo)
+        return r
 
     async def query_server_and_players(
         self, sname: str, gname: str | None
-    ) -> tuple[float, ServerPair]:
+    ) -> QueryResult:
         """根据服务器组和服务器的名称查询服务器信息和玩家信息，
         返回查询时间 和 ServerPair"""
         server = self.find_server(sname, gname)
@@ -125,11 +145,12 @@ class FancySourceQuery:
         qtime2, pinfo = await self.query_pool.players_info(host, port)
         spair = ServerPair(server=sinfo, players=pinfo)
         qtime = max(qtime1, qtime2)
-        return qtime, spair
+        r = QueryResult(tag="sp", qtime=qtime, result=spair)
+        return r
 
     async def query_server_and_players_multi(
         self, snames: list[str], gname: str | None
-    ) -> tuple[float, list[ServerPair]]:
+    ) -> QueryResult:
         """查询多个服务器的信息和玩家信息，返回最晚查询时间和 list[ServerPair]"""
         servers = []
         for sname in snames:
@@ -150,11 +171,12 @@ class FancySourceQuery:
             [ServerPair(server=r[0][1], players=r[1][1]) for r in zip(sinfos, pinfos)],
             key=lambda pair: pair.server.name,
         )
-        return qtime, pairs
+        r = QueryResult(tag="spm", qtime=qtime, result=pairs)
+        return r
 
     async def query_servers_overview(
         self, gname: str | None
-    ) -> tuple[float, list[ServerInfo]]:
+    ) -> QueryResult:
         """查询某服务器组内的服务器信息，返回最晚查询时间和 `list[ServerInfo]`
 
         + `sgroup` 服务器组名
@@ -166,11 +188,12 @@ class FancySourceQuery:
         )
         qtime = max(r[0] for r in results)
         sinfos = [r[1] for r in results]
-        return qtime, sinfos
+        r = QueryResult(tag="o", qtime=qtime, result=sinfos)
+        return r
 
     async def search_player(
         self, player_regex: str, gname: str | None
-    ) -> tuple[float, list[ServerPair] | None]:
+    ) -> QueryResult:
         """在某个组中查找某些玩家，只要玩家名中含有 `player` 的片段，
         便会认为是查找目标。
         返回最晚查询时间和相关的服务器与玩家信息。
@@ -203,18 +226,17 @@ class FancySourceQuery:
                     else:
                         occursins[i].append(p)
         if len(occursins) == 0:
-            return qtime, None
+            return QueryResult(tag="p", qtime=qtime, result=None)
         pairs = sorted(
             (ServerPair(server=total[i][1], players=p) for (i, p) in occursins.items()),
             key=lambda pair: pair.server.name,
         )
-        return (qtime, pairs)
+        r = QueryResult(tag="p", qtime=qtime, result=pairs)
+        return r
 
     async def query(
         self, gname: str | None, qstr: str
-    ) -> tuple[
-        float, None | list[ServerPair] | list[ServerInfo] | ServerPair | ServerInfo
-    ]:
+    ) -> QueryResult:
         """根据 qstr 内容进行查询：
 
         1. qstr 是空字符串或“人数” - 调用 `query_servers_overview`
@@ -248,3 +270,31 @@ class FancySourceQuery:
         self.t2g = t2g
         self.t2g.conf = self.config.impaper
         self.t2g.fontsize = self.config.fontsize
+
+
+async def fmt_qresult(fsq: FancySourceQuery, r: QueryResult, qstr: str) -> str:
+    if r.tag == "p" and r.result is None:
+        if r.result is None:
+            return f"【{qstr}】不在哦~😥"
+
+    body = []
+    if isinstance(r.result, list):
+        body.extend(fsq.ifmt.format(r) for r in r.result)
+    else:
+        body.append(fsq.ifmt.format(r.result))
+    body.append("\n")
+    if isinstance(r.result, list):
+        players = 0
+        for rr in r.result:
+            if r.tag == "p":
+                players += len(rr.players)
+            elif isinstance(rr, ServerPair):
+                players += rr.server.players
+            elif isinstance(rr, ServerInfo):
+                players += rr.players
+        tplayers = fsq.ifmt.fmt_players_count(players)
+        body.append(tplayers)
+    ttime = fsq.ifmt.fmt_query_time(r.qtime)
+    body.append(ttime)
+    text = "\n".join(body)
+    return text

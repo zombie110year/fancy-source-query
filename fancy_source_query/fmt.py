@@ -89,5 +89,14 @@ class InfoFormatter:
             logging.warning(f"未知的地图代码：{code}")
             return code
 
+    def fmt_players_count(self, p: int) -> str:
+        "格式化总人数统计"
+        return self.__fmt.players_count.format(players=p)
+
     def fmt_time(self, t: float) -> str:
         return strftime(self.__fmt.time, localtime(t))
+
+    def fmt_query_time(self, t: float) -> str:
+        "和 fmt_time 的区别在于，这个函数生成显示样式的时间"
+        ttime = self.fmt_time(t)
+        return self.__fmt.query_time.format(time=ttime)

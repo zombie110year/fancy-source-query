@@ -10,7 +10,7 @@ import os
 from argparse import ArgumentParser
 from pathlib import Path
 
-from . import FancySourceQuery
+from . import FancySourceQuery, QueryResult, fmt_qresult
 
 
 def cli_parser():
@@ -36,17 +36,14 @@ async def cli_main_async():
     app = FancySourceQuery()
     gname = args.GROUP
     qstr = args.QSTR
-    qtime, result = await app.query(gname, qstr)
-    if result is None:
-        print("Error: 无查询结果")
-    if isinstance(result, list):
-        fmts = "\n".join(app.ifmt.format(r) for r in result)
-    else:
-        fmts = app.ifmt.format(result)
-    ttime = app.ifmt.fmt_time(qtime)
-    text = f"{fmts}\n\n----{ttime}"
+    qresult: QueryResult = await app.query(gname, qstr)
+    text = await fmt_qresult(app, qresult, qstr)
     print(text)
 
 
 def cli_main():
     asyncio.run(cli_main_async())
+
+
+if __name__ == "__main__":
+    cli_main()
