@@ -103,9 +103,11 @@ indentation = "  "
 
 # 格式化查询数据的模板
 [fancy_source_query.fmt]
-server_info = "{name}\n==({players:>2d}/{max_players:>2d})[{mapname}]"
-player_info = ">>[{score}]({minutes:.1f}min){name}"
+server_info = "服务器：{name}\n概况：({players:>2d}/{max_players:>2d})[{mapname}]"
+player_info = "[{score}]({minutes:.1f}min){name}"
 rule_info = "({key} = {value})"
+players_count = "总人数：{players}"
+query_time = "查询时间：{time}"
 # strftime 格式符
 time = "%Y-%m-%d %H:%M:%S"
 
