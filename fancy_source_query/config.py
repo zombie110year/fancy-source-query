@@ -48,6 +48,8 @@ class FancySourceQueryConfig(BaseModel, extra=Extra.ignore):
     cache_delay: int = 20
     # 默认限制文本输出 5 行，超过 5 行的转成图片输出
     output_max_lines: int = 5
+    # 一次性随机抽取三方图的最大数量
+    map_choices_max_counts: int = 15
     # Fancy Source Query 可以配置地图数据库，方便将地图代码转换成人类可读的地图名
     # 该路径相对于 nonebot 进程工作目录
     mapnames_db: str = DEFAULT_MAPNAMES_PATH

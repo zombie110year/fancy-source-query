@@ -9,11 +9,18 @@ import logging
 import re
 from base64 import b64encode
 from io import BytesIO
+from random import shuffle
 
 import exrex
 from nonebot import get_driver, on_command
-from nonebot.adapters.onebot.v11 import Bot, Event, Message, MessageSegment
-from nonebot.adapters.onebot.v11 import GROUP_OWNER, GROUP_ADMIN
+from nonebot.adapters.onebot.v11 import (
+    GROUP_ADMIN,
+    GROUP_OWNER,
+    Bot,
+    Event,
+    Message,
+    MessageSegment,
+)
 from nonebot.exception import ActionFailed
 from nonebot.params import CommandArg
 from nonebot.permission import SUPERUSER
@@ -42,9 +49,15 @@ refresh = on_command(
     rule=to_me(),
     permission=ALL_ADMINS,
 )
-
+choose_map = on_command(
+    "choose_map",
+    aliases=set(exrex.generate("[抽选]图")),
+    rule=to_me(),
+    permission=ALL_ADMINS,
+)
 __RE_CQAT = re.compile(r"\[CQ:at,qq=([1-9]([0-9]{4,}))\]")
 __RE_SESSION = re.compile(r"group_([1-9]([0-9]{4,}))_([1-9]([0-9]{4,}))")
+__RE_COUNTS = re.compile(r"(\d+)[张]?")
 
 
 @query.handle()
@@ -118,6 +131,36 @@ async def _refresh(bot: Bot, ev: Event, item: Message = CommandArg()):
         FSQ.update_config()
         FSQ.update_mapnames()
         await refresh.finish("已刷新配置和地图数据")
+
+
+@choose_map.handle()
+async def _choose_map(bot: Bot, ev: Event, counts: Message = CommandArg()):
+    """抽取非官方地图，默认3张，若输入数字则抽取对应数量"""
+    session = ev.get_session_id()
+    logging.debug(f"{session=!r}")
+    m = __RE_SESSION.fullmatch(session)
+    # 群聊环境
+    session = m[1]
+    user = ev.get_user_id()
+    counts = str(counts).strip()
+    m2 = __RE_COUNTS.search(counts)
+    counts = int(m2[1]) if m2 is not None else 3
+    if counts > FSQ.config.map_choices_max_counts:
+        counts = FSQ.config.map_choices_max_counts
+        await choose_map.send(Message(f"抽这么多，打得完吗？😅\n给你{counts}张。"))
+    candidates = [i for i in FSQ.mapnames if not i.official]
+    shuffle(candidates)
+    selected = candidates[:counts]
+    names = []
+    for i in selected:
+        if i.name_zh is not None:
+            names.append(i.name_zh)
+        else:
+            names.append(i.name)
+    text = "/".join(names)
+    msg = Message(f"[CQ:at,qq={user}]\n{text}")
+    await choose_map.finish(msg)
+    return
 
 
 def im2png(im: Image) -> bytes:
