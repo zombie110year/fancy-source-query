@@ -13,6 +13,7 @@ from io import BytesIO
 import exrex
 from nonebot import get_driver, on_command
 from nonebot.adapters.onebot.v11 import Bot, Event, Message
+from nonebot.adapters.onebot.v11 import GROUP_OWNER, GROUP_ADMIN
 from nonebot.exception import ActionFailed
 from nonebot.params import CommandArg
 from nonebot.permission import SUPERUSER
@@ -30,6 +31,7 @@ FSQ = FancySourceQuery()
 FSQ.update_config(_nonebot_config.fancy_source_query_config)
 FSQ.lazy_load_t2g(SimpleTextDrawer())
 
+ALL_ADMINS = SUPERUSER | GROUP_OWNER | GROUP_ADMIN
 
 query = on_command("query", aliases=set(exrex.generate("查[查询]?")), rule=to_me())
 refresh = on_command(
@@ -38,7 +40,7 @@ refresh = on_command(
         "刷新",
     },
     rule=to_me(),
-    permission=SUPERUSER,
+    permission=ALL_ADMINS,
 )
 
 __RE_CQAT = re.compile(r"\[CQ:at,qq=([1-9]([0-9]{4,}))\]")
@@ -133,9 +135,7 @@ async def get_group_member_name(bot: Bot, group: str, id: str) -> str:
     return name
 
 
-async def search_user_by_qq_name(
-    gname: str, name: str
-) -> QueryResult:
+async def search_user_by_qq_name(gname: str, name: str) -> QueryResult:
     """搜索玩家，如果全名找不到，则搜索含任意一个字的名称"""
     result = await FSQ.search_player(name, gname)
     if result.result is None:
