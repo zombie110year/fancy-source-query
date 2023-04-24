@@ -105,6 +105,7 @@ def load_config(config_path: str | None = None):
 
 
 class Mapname(BaseModel, extra=Extra.ignore):
+    official: bool = False
     name: str
     name_zh: str | None = None
     maps: list[str]
