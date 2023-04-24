@@ -12,7 +12,7 @@ from io import BytesIO
 
 import exrex
 from nonebot import get_driver, on_command
-from nonebot.adapters.onebot.v11 import Bot, Event, Message
+from nonebot.adapters.onebot.v11 import Bot, Event, Message, MessageSegment
 from nonebot.adapters.onebot.v11 import GROUP_OWNER, GROUP_ADMIN
 from nonebot.exception import ActionFailed
 from nonebot.params import CommandArg
@@ -61,7 +61,7 @@ async def _query(bot: Bot, ev: Event, qstr: Message = CommandArg()):
     else:
         # 私聊环境
         session = ev.get_user_id()
-        user = None
+        user = ev.get_user_id()
         private = True
     gname = FSQ.find_gname_from_session(session)
     maybe_at = str(qstr).strip()
@@ -73,20 +73,34 @@ async def _query(bot: Bot, ev: Event, qstr: Message = CommandArg()):
     else:
         qresult: QueryResult = await FSQ.query(gname, str(qstr))
     text = await fmt_qresult(FSQ, qresult, qstr)
-    if text.count("\n") > FSQ.config.output_max_lines:
+    lines = text.count("\n")
+    if lines > FSQ.config.output_max_lines:
         im = FSQ.t2g.draw(text)
         text = im2cqcode(im)
-        logging.debug(f"build image, cq code length = {len(text)}.")
-
-    if private:
-        msg = text
+        logging.info(f"build image, cq code length = {len(text)}.")
     else:
-        msg = f"[CQ:at,qq={user}]\n{text}"
+        # 以文本模式输出时去除标签
+        t2g: SimpleTextDrawer = FSQ.t2g
+        text = t2g._labels_re.sub("", text)
+    if private:
+        msg = Message(text)
+    else:
+        if lines > FSQ.config.output_max_lines * 2:
+            # 即便转成图片也很长，则收集到合并转发消息中
+            at_ = Message(f"[CQ:at,qq={user}]\n图片太长，收到合并转发里了")
+            msg = Message(
+                MessageSegment.node_custom(user_id=user, nickname="这谁？", content=text)
+            )
+            await query.send(at_)
+            await bot.send_group_forward_msg(group_id=int(session), messages=msg)
+            return
+        else:
+            msg = Message(f"[CQ:at,qq={user}]\n{text}")
 
     try:
-        await query.finish(Message(msg))
+        await query.finish(msg)
     except ActionFailed:
-        logging.error(f"message send failed: {text!r}")
+        logging.error(f"message send failed: {text[:100]!r}")
         await query.finish()
     return
 
