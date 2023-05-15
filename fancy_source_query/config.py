@@ -11,6 +11,7 @@ NONEBOT_CONFIG_KEY = "fancy_source_query_config"
 CONFIG_PATH_PREFIX = "fancy_source_query"
 MAPNAMES_PATH_PREFIX = "mapnames"
 DEFAULT_CONFIG_PATH = "fancy_source_query.toml"
+DEFAULT_MAPNAMES_PATH_OFFICIAL = "officials.toml"
 DEFAULT_MAPNAMES_PATH = "mapnames.toml"
 
 
@@ -52,7 +53,7 @@ class FancySourceQueryConfig(BaseModel, extra=Extra.ignore):
     map_choices_max_counts: int = 15
     # Fancy Source Query 可以配置地图数据库，方便将地图代码转换成人类可读的地图名
     # 该路径相对于 nonebot 进程工作目录
-    mapnames_db: str = DEFAULT_MAPNAMES_PATH
+    mapnames_db: list[str] = [DEFAULT_MAPNAMES_PATH_OFFICIAL, DEFAULT_MAPNAMES_PATH]
     # 默认的服务器组，在不传入组名时使用此组
     default_server_group: str
     # 转图片时的字号

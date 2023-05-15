@@ -98,8 +98,11 @@ class FancySourceQuery:
             self.t2g.fontsize = self.config.fontsize
 
     def update_mapnames(self):
-        mapnames = toml.load(self.config.mapnames_db)
-        self.mapnames = [Mapname.parse_obj(x) for x in mapnames[MAPNAMES_PATH_PREFIX]]
+        mapnames_lists = [toml.load(i) for i in self.config.mapnames_db]
+        mapnames_list = []
+        for ml in mapnames_lists:
+            mapnames_list.extend(ml[MAPNAMES_PATH_PREFIX])
+        self.mapnames = [Mapname.parse_obj(x) for x in mapnames_list]
         self.map_rlookup = build_rlookup(self.mapnames)
         self.ifmt.config(rlookup=self.map_rlookup)
         logging.debug("mapnames refreshed")

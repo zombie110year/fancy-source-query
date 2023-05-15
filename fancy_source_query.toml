@@ -9,7 +9,8 @@ output_max_lines = 5
 map_choices_max_counts = 15
 # Fancy Source Query 可以配置地图数据库，方便将地图代码转换成人类可读的地图名
 # 该路径相对于 nonebot 进程工作目录
-mapnames_db = "mapnames.toml"
+# 可以传入一列数据文件，它们应当有相同的格式，文件的读取顺序与配置的顺序一致
+mapnames_db = ["mapnames.toml",]
 # 默认的服务器组，在不传入组名时使用此组
 default_server_group = "A"
 # 转图片时的字号，px
