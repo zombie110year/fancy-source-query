@@ -1,6 +1,6 @@
 [project]
 name = "fancy_source_query"
-version = "0.1.4"
+version = "0.1.5"
 description = "Intelligent tool to query source servers, with a cli interface and plugin integrates into nonebot."
 authors = [{ name = "zombie110year", email = "zombie110year@outlook.com" }]
 dependencies = [
