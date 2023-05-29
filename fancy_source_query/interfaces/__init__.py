@@ -74,8 +74,6 @@ class FancySourceQuery:
         self.query_pool = QueryPool()
         self.ifmt = InfoFormatter()
         self.t2g = None
-        self.update_config()
-        self.update_mapnames()
 
     def update_config(self, path: str | None = None):
         self.config = load_config(path)
