@@ -1,5 +1,7 @@
-from .config import ServerConfig, ServerGroupConfig
 import logging
+from collections import OrderedDict
+
+from .config import ServerConfig, ServerGroupConfig
 
 
 class Server:
@@ -53,7 +55,7 @@ def build_server_group_graph(
         o.name: ServerGroup(name=o.name, related_sessions=o.related_sessions)
         for o in groups_conf
     }
-    servers = {}
+    servers = OrderedDict()
     for conf in servers_conf:
         if conf.group not in groups:
             logging.warning(f"orphan server, skip adding to group: {conf!r}")

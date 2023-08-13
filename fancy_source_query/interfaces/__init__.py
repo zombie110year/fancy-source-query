@@ -39,6 +39,7 @@ class QueryResult(BaseModel):
         + spm : server and players multi
         + p : search player
     """
+
     tag: Literal["o", "s", "sp", "spm", "p"]
     # query time
     qtime: float
@@ -125,9 +126,7 @@ class FancySourceQuery:
             raise ObjectNotFound("server group not found", gname)
         return group
 
-    async def query_server(
-        self, sname: str, gname: str | None
-    ) -> QueryResult:
+    async def query_server(self, sname: str, gname: str | None) -> QueryResult:
         """根据服务器组和服务器的名称查询服务器信息，返回查询时间 和 Server Info"""
         server = self.find_server(sname, gname)
         host, port = server.host, server.port
@@ -168,22 +167,19 @@ class FancySourceQuery:
             *(self.query_pool.players_info(s.host, s.port) for s in servers)
         )
         qtime = max([r[0] for r in sinfos] + [r[0] for r in pinfos])
-        pairs = sorted(
-            [ServerPair(server=r[0][1], players=r[1][1]) for r in zip(sinfos, pinfos)],
-            key=lambda pair: pair.server.name,
-        )
+        pairs = [
+            ServerPair(server=r[0][1], players=r[1][1]) for r in zip(sinfos, pinfos)
+        ]
         r = QueryResult(tag="spm", qtime=qtime, result=pairs)
         return r
 
-    async def query_servers_overview(
-        self, gname: str | None
-    ) -> QueryResult:
+    async def query_servers_overview(self, gname: str | None) -> QueryResult:
         """查询某服务器组内的服务器信息，返回最晚查询时间和 `list[ServerInfo]`
 
         + `sgroup` 服务器组名
         """
         group = self.find_group(gname)
-        servers = sorted(group.servers.values(), key=lambda s: s.name)
+        servers = group.servers.values()
         results = await asyncio.gather(
             *[self.query_pool.server_info(s.host, s.port) for s in servers]
         )
@@ -192,16 +188,14 @@ class FancySourceQuery:
         r = QueryResult(tag="o", qtime=qtime, result=sinfos)
         return r
 
-    async def search_player(
-        self, player_regex: str, gname: str | None
-    ) -> QueryResult:
+    async def search_player(self, player_regex: str, gname: str | None) -> QueryResult:
         """在某个组中查找某些玩家，只要玩家名中含有 `player` 的片段，
         便会认为是查找目标。
         返回最晚查询时间和相关的服务器与玩家信息。
         如果未找到则返回无意义的时间戳和None。
         """
         group = self.find_group(gname)
-        servers = sorted(group.servers.values(), key=lambda s: s.name)
+        servers = group.servers.values()
         stasks = await asyncio.gather(
             *[self.query_pool.server_info(s.host, s.port) for s in servers]
         )
@@ -228,16 +222,13 @@ class FancySourceQuery:
                         occursins[i].append(p)
         if len(occursins) == 0:
             return QueryResult(tag="p", qtime=qtime, result=None)
-        pairs = sorted(
-            (ServerPair(server=total[i][1], players=p) for (i, p) in occursins.items()),
-            key=lambda pair: pair.server.name,
-        )
+        pairs = [
+            ServerPair(server=total[i][1], players=p) for (i, p) in occursins.items()
+        ]
         r = QueryResult(tag="p", qtime=qtime, result=pairs)
         return r
 
-    async def query(
-        self, gname: str | None, qstr: str
-    ) -> QueryResult:
+    async def query(self, gname: str | None, qstr: str) -> QueryResult:
         """根据 qstr 内容进行查询：
 
         1. qstr 是空字符串或“人数” - 调用 `query_servers_overview`
